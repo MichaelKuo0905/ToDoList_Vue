@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css"> -->
+</head>
+<body >
+    <h1>To Do List</h1>
+    
+    <div id="app" class="wrap"> 
+    <div class="ToDoListclass">
+        <input type="text"  class="typeclass"  @keyup.enter="addTodo" placeholder="準備要做的任務" v-model="newTodo">
+        <button type="button" class="btn-primary" @click="addTodo" >新增</button>
+        <div class="card-header">
+          <ul class="nav-tabs">
+            <li class="nav-item">
+              <a class="btnclass" :class="{'active':visibility == 'all'}" @click="visibility='all' " href="#">全部</a>
+            </li>
+            <li class="nav-item">
+              <a class="btnclass" :class="{'active':visibility=='active'}" @click="visibility='active' " href="#">進行中</a>
+            </li>
+            <li class="nav-item">
+              <a class="btnclass" :class="{'active':visibility=='completed'}" @click="visibility='completed' " href="#">已完成</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <ul class="list-group">
+          <li class="list-group-item" v-for="(item,key) in filterTodo" @dblclick="editTodo(item)" >
+            <div class="d-flex" v-if="item.id!== cachetodo.id">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" v-model="item.completed " :id="item.id">
+                <label class="form-check-label" :for="item.id" :class="{completed :item.completed}">
+                  {{item.title}}
+                </label>
+              </div>
+              <button type="button" class="close ml-auto" @click="removeTodo(item)" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <input type="text" class="form-control" v-if="item.id == cachetodo.id" v-model="cachetitle" 
+            @keyup.esc="cancelEdit()" @keyup.enter="doneEdit(item)">
+          </li>
+          </ul>
+        <div class="card-footer d-flex justify-content-between">
+          <span style="font-size:20px;">還有{{undfinished}}筆未完成</span>
+          <a href="#" style="font-size:20px; text-decoration: none;" @click.prevent="clearall()">清除所有任務</a>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/all.js"></script>
+    
+</body>
+</html>
